@@ -1,3 +1,2 @@
-ctf
 ctf_stats
 irc?

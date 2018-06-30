@@ -1,4 +1,4 @@
-minetest.set_mapgen_params({mgname = "singlenode", flags = "nolight"})
+assert(minetest.get_mapgen_setting("mg_name") == "singlenode", "singlenode mapgen is required.")
 
 minetest.register_alias("mapgen_singlenode", "ctf_map:ignore")
 minetest.register_alias("ctf_map:flag", "air")
@@ -22,26 +22,13 @@ minetest.register_alias("default:grass_5", "air")
 minetest.register_alias("default:bush_leaves", "air")
 minetest.register_alias("default:bush_stem", "air")
 
+
 local max_r  = 120
 local mapdir = minetest.get_modpath("ctf_map") .. "/maps/"
 ctf_map.map  = nil
 
 
-local next_idx
-minetest.register_chatcommand("set_next", {
-	privs = { ctf_admin = true },
-	func = function(name, param)
-		for i, mname in pairs(ctf_map.available_maps) do
-			if mname:lower():find(param, 1, true) then
-				next_idx = i
-				return true, "Selected " .. mname
-			end
-		end
-	end,
-})
-
-
-local function search_for_maps()
+do
 	local files_hash = {}
 
 	local dirs = minetest.get_dir_list(mapdir, true)
@@ -57,68 +44,50 @@ local function search_for_maps()
 	for key, _ in pairs(files_hash) do
 		table.insert(ctf_map.available_maps, key)
 	end
-	return ctf_map.available_maps
+	print(dump(ctf_map.available_maps))
 end
-print(dump(search_for_maps()))
-
-minetest.register_chatcommand("maps_reload", {
-	privs = { ctf_admin = true },
-	func = function(name, param)
-		local maps = search_for_maps()
-		next_idx = nil
-		return true, #maps .. " maps found: " .. table.concat(maps, ", ")
-	end,
-})
 
 
 function ctf_map.place_map(map)
-	local schempath = mapdir .. map.schematic
+	ctf_map.emerge_with_callbacks(nil, map.pos1, map.pos2, function()
+		local schempath = mapdir .. map.schematic
+		local res = minetest.place_schematic(map.pos1, schempath,
+				map.rotation == "z" and "0" or "90")
 
-	--
-	-- Place schematic
-	--
-	local vm  = minetest.get_voxel_manip(map.pos1, map.pos2)
-	local res = minetest.place_schematic_on_vmanip(vm, map.pos1, schempath,
-			map.rotation == "z" and "0" or "90")
-	assert(res)
-	vm:write_to_map()
+		assert(res)
 
-	--
-	-- Create bases
-	--
-	for _, value in pairs(ctf_map.map.teams) do
-		ctf_team_base.place(value.color, value.pos)
-	end
-
-	--
-	-- Place flags
-	--
-	local seed = minetest.get_mapgen_setting("seed")
-	for _, chestzone in pairs(ctf_map.map.chests) do
-		minetest.log("warning", "Placing " .. chestzone.n .. " chests from " ..
-				minetest.pos_to_string(chestzone.from) .. " to "..
-				minetest.pos_to_string(chestzone.to))
-		place_chests(chestzone.from, chestzone.to, seed, chestzone.n)
-	end
-
-	--
-	-- Wait then send map messages (avoids "X joined blue" spam)
-	--
-	minetest.after(2, function()
-		local msg = "Map: " .. map.name .. " by " .. map.author
-		if map.hint then
-			msg = msg .. "\n" .. map.hint
+		for _, value in pairs(ctf_map.map.teams) do
+			ctf_team_base.place(value.color, value.pos)
 		end
-		minetest.chat_send_all(msg)
-		if minetest.global_exists("irc") and irc.connected then
-			irc:say("Map: " .. map.name)
-		end
-	end)
+
+		local seed = minetest.get_mapgen_setting("seed")
+		--[[for _, chestzone in pairs(ctf_map.map.chests) do
+			minetest.log("warning", "Placing " .. chestzone.n .. " chests from " ..
+					minetest.pos_to_string(chestzone.from) .. " to "..
+					minetest.pos_to_string(chestzone.to))
+			place_chests(chestzone.from, chestzone.to, seed, chestzone.n)
+		end--]]
+
+		minetest.after(2, function()
+			local msg = "Map: " .. map.name .. " by " .. map.author
+			if map.hint then
+				msg = msg .. "\n" .. map.hint
+			end
+			minetest.chat_send_all(msg)
+			if minetest.global_exists("irc") and irc.connected then
+				irc:say("Map: " .. map.name)
+			end
+		end)
+
+		minetest.after(10, function()
+			minetest.fix_light(ctf_map.map.pos1, ctf_map.map.pos2)
+		end)
+	end, nil)
 end
 
 function ctf_match.load_map_meta(idx, name)
 	local offset = vector.new(600 * idx, 0, 0)
-	local meta = Settings(mapdir .. name .. ".conf")
+	local meta   = Settings(mapdir .. name .. ".conf")
 
 	local initial_stuff = meta:get("initial_stuff")
 	local map = {
@@ -139,7 +108,7 @@ function ctf_match.load_map_meta(idx, name)
 	assert(map.r <= max_r)
 
 	map.pos1 = vector.add(offset, { x = -map.r, y = -map.h / 2, z = -map.r })
-	map.pos2 = vector.add(offset, { x =  map.r, y =  map.h / 2, z =  map.r })
+	map.pos2 = vector.add(offset, { x =  map.r, y = map.h / 2,  z =  map.r })
 
 	-- Read teams from config
 	local i = 1
@@ -208,9 +177,7 @@ ctf_match.register_on_new_match(function()
 
 	-- Choose next map index, but don't select the same one again
 	local idx
-	if next_idx then
-		idx = next_idx
-	elseif ctf_map.map then
+	if ctf_map.map then
 		idx = math.random(#ctf_map.available_maps - 1)
 		if idx >= ctf_map.map.idx then
 			idx = idx + 1
@@ -218,7 +185,6 @@ ctf_match.register_on_new_match(function()
 	else
 		idx = math.random(#ctf_map.available_maps)
 	end
-	next_idx = (idx % #ctf_map.available_maps) + 1
 
 	-- Load meta data
 	local name = ctf_map.available_maps[idx]

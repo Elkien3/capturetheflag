@@ -57,7 +57,7 @@ for _, chest_color in pairs(colors) do
 			if not pstat or not pstat.score or pstat.score < 10 then
 				local msg = "You need at least 10 score to access the team chest.\n" ..
 					"Try killing an enemy player, or at least attempting to capture the flag.\n" ..
-					"Find resources in chests scattered around the map."
+					"Set a class at the flag to get a different kit."
 				formspec = formspec .. "label[1,1;" .. minetest.formspec_escape(msg) .. "]"
 				minetest.show_formspec(player:get_player_name(), "ctf_team_base:no_access",  formspec)
 				return

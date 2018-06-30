@@ -72,12 +72,12 @@ function ctf_alloc.set_all()
 
 		ctf.move_to_spawn(name)
 
-		if ctf.setting("match.clear_inv") then
-			local inv = player:get_inventory()
-			inv:set_list("main", {})
-			inv:set_list("craft", {})
-			give_initial_stuff(player)
-		end
+--		if ctf.setting("match.clear_inv") then
+--			local inv = player:get_inventory()
+--			inv:set_list("main", {})
+--			inv:set_list("craft", {})
+--			give_initial_stuff(player)
+--		end
 
 		player:set_hp(20)
 	end

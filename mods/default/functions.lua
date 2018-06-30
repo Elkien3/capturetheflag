@@ -122,7 +122,11 @@ end
 --
 
 default.cool_lava = function(pos, node)
-	minetest.set_node(pos, {name = "default:stone"})
+	if node.name == "default:lava_source" then
+		minetest.set_node(pos, {name = "default:obsidian"})
+	else -- Lava flowing
+		minetest.set_node(pos, {name = "default:stone"})
+	end
 	minetest.sound_play("default_cool_lava",
 		{pos = pos, max_hear_distance = 16, gain = 0.25})
 end
@@ -211,6 +215,25 @@ function default.grow_papyrus(pos, node)
 	minetest.set_node(pos, {name = "default:papyrus"})
 	return true
 end
+
+minetest.register_abm({
+	label = "Grow cactus",
+	nodenames = {"default:cactus"},
+	neighbors = {"group:sand"},
+	interval = 12,
+	chance = 83,
+	action = default.grow_cactus
+})
+
+minetest.register_abm({
+	label = "Grow papyrus",
+	nodenames = {"default:papyrus"},
+	neighbors = {"default:dirt", "default:dirt_with_grass"},
+	interval = 14,
+	chance = 71,
+	action = default.grow_papyrus
+})
+
 
 --
 -- dig upwards
@@ -428,6 +451,31 @@ minetest.register_abm({
 
 
 --
+-- Moss growth on cobble near water
+--
+
+minetest.register_abm({
+	label = "Moss growth",
+	nodenames = {"default:cobble", "stairs:slab_cobble", "stairs:stair_cobble", "walls:cobble"},
+	neighbors = {"group:water"},
+	interval = 16,
+	chance = 200,
+	catch_up = false,
+	action = function(pos, node)
+		if node.name == "default:cobble" then
+			minetest.set_node(pos, {name = "default:mossycobble"})
+		elseif node.name == "stairs:slab_cobble" then
+			minetest.set_node(pos, {name = "stairs:slab_mossycobble", param2 = node.param2})
+		elseif node.name == "stairs:stair_cobble" then
+			minetest.set_node(pos, {name = "stairs:stair_mossycobble", param2 = node.param2})
+		elseif node.name == "walls:cobble" then
+			minetest.set_node(pos, {name = "walls:mossycobble", param2 = node.param2})
+		end
+	end
+})
+
+
+--
 -- Checks if specified volume intersects a protected volume
 --
 
@@ -465,6 +513,22 @@ function default.intersects_protection(minp, maxp, player_name, interval)
 
 	return false
 end
+
+
+--
+-- Coral death near air
+--
+
+minetest.register_abm({
+	nodenames = {"default:coral_brown", "default:coral_orange"},
+	neighbors = {"air"},
+	interval = 17,
+	chance = 5,
+	catch_up = false,
+	action = function(pos, node)
+		minetest.set_node(pos, {name = "default:coral_skeleton"})
+	end,
+})
 
 
 --

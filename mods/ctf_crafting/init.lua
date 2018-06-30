@@ -58,14 +58,6 @@ end
 
 crafting.register_recipe({
 	type   = "inv",
-	output = "default:bronze_ingot 9",
-	items  = { "default:copper_ingot 8", "default:tin_ingot"},
-	always_known = true,
-	level  = 1,
-})
-
-crafting.register_recipe({
-	type   = "inv",
 	output = "default:mese_crystal 9",
 	items  = { "default:mese"},
 	always_known = true,
@@ -83,7 +75,7 @@ crafting.register_recipe({
 crafting.register_recipe({
 	type   = "inv",
 	output = "doors:door_steel",
-	items  = { "default:steel_ingot 6" },
+	items  = { "default:steel 6" },
 	always_known = true,
 	level  = 1,
 })

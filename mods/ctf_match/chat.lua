@@ -35,7 +35,7 @@ minetest.register_chatcommand("ctf_respawn", {
 			local player = minetest.get_player_by_name(param)
 			if player then
 				ctf.move_to_spawn(param)
-				give_initial_stuff(player)
+				--give_initial_stuff(player)
 				minetest.chat_send_player(param,
 					"You were sent back to base and your inventory wiped (by " .. name .. ")")
 				return true, "Moved player to spawn and wiped inventory."

@@ -1,4 +1,4 @@
-give_initial_stuff = {}
+--[[give_initial_stuff = {}
 
 setmetatable(give_initial_stuff, {
 	__call = function(self, player)
@@ -6,10 +6,6 @@ setmetatable(give_initial_stuff, {
 		local inv = player:get_inventory()
 		inv:set_list("main",  {})
 		inv:set_list("craft", {})
-
-		inv:set_size("craft", 1)
-		inv:set_size("craftresult", 0)
-		inv:set_size("hand", 0)
 
 		local items = give_initial_stuff.get_stuff()
 
@@ -32,3 +28,4 @@ minetest.register_on_joinplayer(function(player)
 	give_initial_stuff(player)
 end)
 minetest.register_on_respawnplayer(give_initial_stuff)
+--]]
