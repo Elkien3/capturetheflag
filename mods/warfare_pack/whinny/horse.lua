@@ -342,6 +342,7 @@ whinny:register_spawn("whinny:horseara","default:dirt_with_grass",20, 6, 50000, 
 local function detachall()
 	for _, player in ipairs(minetest.get_connected_players()) do
 		player:set_detach()
+		player:set_eye_offset({x=0, y=0, z=0}, {x=0, y=0, z=0})
 	end
 end
 ctf_match.register_on_new_match(detachall)
