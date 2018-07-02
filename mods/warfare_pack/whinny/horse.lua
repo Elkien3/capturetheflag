@@ -339,3 +339,9 @@ whinny:register_spawn("whinny:horse","default:dirt_with_grass",20, 6, 50000, 1, 
 whinny:register_spawn("whinny:horsepeg","default:dirt_with_dry_grass",20, 6, 50000, 1, 100)
 whinny:register_spawn("whinny:horseara","default:dirt_with_grass",20, 6, 50000, 1, 100)
 --]]
+local function detachall()
+	for _, player in ipairs(minetest.get_connected_players()) do
+		player:set_detach()
+	end
+end
+ctf_match.register_on_new_match(detachall)
