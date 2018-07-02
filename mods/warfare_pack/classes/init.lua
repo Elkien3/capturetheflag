@@ -49,10 +49,15 @@ function classes_save()
 	io.close(output)
 end
 
-function classes_loadout(player, class)
-	local playerclass = class or class[player:get_player_name()] or default_class
+function classes_loadout(player, classname)
 	if not player then
 		return
+	end
+	local playerclass = ""
+	if classname then
+		playerclass = classname
+	else
+		playerclass = class[player:get_player_name()] or default_class
 	end
 	--local armor_inv = minetest.get_inventory({type="detached", name=player:get_player_name().."_armor"})
 	local name, armor_inv = armor:get_valid_player(player, "[on_supply]")
@@ -90,6 +95,23 @@ function clearinventory(player)
 	armor.set_player_armor(armor, player)
 end
 
+local function supplytimer(name)
+	cansupply[name] = true
+	if minetest.get_player_by_name(name) then
+		minetest.chat_send_player(name, "You may now resupply or change class again.")
+	end
+end
+
+function classes_reloadall()
+	for _, player in ipairs(minetest.get_connected_players()) do
+		local name = player:get_player_name()
+		classes_loadout(player)
+		supplytimer(name)
+	end
+end
+
+ctf_match.register_on_new_match(classes_reloadall)
+
 minetest.register_on_respawnplayer(function(player)
 	classes_loadout(player, class[player:get_player_name()])
 	--player:setpos({x=0,y=0,z=0})
@@ -104,13 +126,6 @@ end)
 minetest.register_on_dieplayer(function(player)
 	clearinventory(player)
 end)
-
-local function supplytimer(name)
-	cansupply[name] = true
-	if minetest.get_player_by_name(name) then
-		minetest.chat_send_player(name, "You may now resupply or change class again.")
-	end
-end
 
 local function class_formspec(player)
 	local size = { "size[10,4]" }
