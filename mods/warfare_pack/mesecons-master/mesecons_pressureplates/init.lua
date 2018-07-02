@@ -95,8 +95,8 @@ mesecon.register_pressure_plate(
 	mesecon.register_pressure_plate(
 	"mesecons_pressureplates:pressure_plate_grass",
 	"Stone Pressure Plate",
-	{"jeija_pressure_plate_stone_off.png","jeija_pressure_plate_stone_off.png","jeija_pressure_plate_stone_off_edges.png"},
-	{"jeija_pressure_plate_stone_on.png","jeija_pressure_plate_stone_on.png","jeija_pressure_plate_stone_on_edges.png"},
+	{"default_grass.png","default_grass.png","jeija_pressure_plate_stone_off_edges.png"},
+	{"default_grass.png","default_grass.png","jeija_pressure_plate_stone_on_edges.png"},
 	"jeija_pressure_plate_stone_wield.png",
 	"jeija_pressure_plate_stone_inv.png",
 	{{"mesecons_pressureplates:pressure_plate_stone", "default:grass"}})
