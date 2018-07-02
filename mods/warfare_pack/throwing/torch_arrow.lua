@@ -80,7 +80,10 @@ THROWING_ARROW_ENTITY.on_step = function(self, dtime)
 				
 				local tnt = minetest.find_node_near(self.lastpos, 1, {"tnt:tnt"})
 				if tnt then 
-					 boom(tnt)
+					minetest.sound_play("tnt_ignite", {pos=tnt})
+					minetest.set_node(tnt, {name="tnt:tnt_burning"})
+					local timer = minetest.get_node_timer(tnt)
+					timer:set(4, 4)
 				end
 			else
 				local toughness = 0.9
