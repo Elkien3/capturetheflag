@@ -6,13 +6,13 @@ local supply_time = 120
 local default_class = "Sword"
 available_classes["Sword"] = {"default:sword_steel", "default:pick_steel", "default:ladder 6", "default:torch 4", "3d_armor:helmet_steel", "3d_armor:chestplate_steel", "xtraarmor:boots_leather_black", "shields:shield_steel"}
 available_classes["Knight"] = {"default:sword_steel", "default:pick_steel", "default:ladder 6", "default:torch 4", "xtraarmor:helmet_leather_black", "xtraarmor:chestplate_studded", "xtraarmor:boots_leather_black", "shields:shield_steel", "whinny:horseh1"}
---available_classes["Spear"] = {"lottweapons:steel_spear", "default:pick_steel", "default:ladder 6", "default:torch 4", "3d_armor:helmet_steel", "3d_armor:chestplate_steel", "xtraarmor:boots_leather_black", "shields:shield_steel"}
---available_classes["Hammer"] = {"lottweapons:steel_warhammer", "default:pick_steel", "default:ladder 6", "default:torch 4", "3d_armor:helmet_steel", "3d_armor:chestplate_steel", "xtraarmor:boots_leather_black", "shields:shield_steel"}
+available_classes["Spear"] = {"lottweapons:steel_spear", "default:pick_steel", "default:ladder 6", "default:torch 4", "3d_armor:helmet_steel", "3d_armor:chestplate_steel", "xtraarmor:boots_leather_black", "shields:shield_steel"}
+available_classes["Hammer"] = {"lottweapons:steel_warhammer", "default:pick_steel", "default:ladder 6", "default:torch 4", "3d_armor:helmet_steel", "3d_armor:chestplate_steel", "xtraarmor:boots_leather_black", "shields:shield_steel"}
 available_classes["Bow"] = {"throwing:bow_composite", "throwing:arrow_stone 32", "throwing:arrow_torch 8", "shooter:grapple_hook", "default:pick_steel", "default:torch 4", "xtraarmor:helmet_leather_black", "xtraarmor:chestplate_leather_black", "xtraarmor:leggings_leather_black", "xtraarmor:boots_leather_black"}
 available_classes["Crossbow"] = {"throwing:crossbow", "throwing:arrow_steel 32", "throwing:arrow_torch 8", "shooter:grapple_hook", "default:pick_steel", "default:torch 4", "xtraarmor:helmet_leather_brown", "xtraarmor:chestplate_studded", "xtraarmor:leggings_studded", "xtraarmor:boots_leather_brown"}
 available_classes["Builder"] = {"default:pick_diamond", "default:stonebrick 99", "default:wood 99", "default:torch 4", "doors:door_steel", "default:ladder 16"}
 available_classes["Healer"] = {"default:pick_steel", "bandages:bandage_2 50", "bandages:bandage_3 10", "default:torch 4", "default:ladder 4", "3d_armor:chestplate_bronze", "xtraarmor:boots_leather_black", "shields:shield_enhanced_wood"}
-available_classes["Bomber"] = {"default:pick_steel", "tnt:tnt 2", "mesecons_pressureplates:pressure_plate_stone_off 2", "default:torch 4", "default:ladder 4", "shields:shield_wood"}
+available_classes["Bomber"] = {"default:pick_steel", "tnt:tnt 2", "mesecons_pressureplates:pressure_plate_grass_off 2", "default:torch 4", "default:ladder 4", "shields:shield_wood"}
 
 local world_path = minetest.get_worldpath()
 local file = world_path .. "/classes.txt"
