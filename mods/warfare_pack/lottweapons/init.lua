@@ -3,6 +3,30 @@
 minetest.register_tool("lottweapons:septer", {
 	description = "Septer",
 	inventory_image = "lottweapons_septer.png",
+	on_use = function(itemstack, user, pointed_thing)
+		local userpos = user:get_pos()
+		local closeflagdistance = nil
+		local closeflag = nil
+		for tname, team in pairs(ctf.teams) do
+			local i = 0
+			for _, flag in pairs(team.flags) do
+				if not flag then
+					return flase
+				end
+				local flagpos = {x = flag.x, y = flag.y, z = flag.z}
+				local flagdistance = vector.distance(userpos, flagpos)
+				if not closeflagdistance then
+					closeflagdistance = flagdistance
+					closeflag = flag
+				elseif flagdistance < closeflagdistance then
+					closeflagdistance = flagdistance
+					closeflag = flag
+				end
+			end
+		end
+		minetest.chat_send_player(user:get_player_name(), "Closest flag is "..tostring(math.floor(closeflagdistance)).." blocks away. (Owned by "..closeflag.team..")")
+		return
+	end,
 	tool_capabilities = {
 		full_punch_interval = 2,
 		max_drop_level=1,
@@ -120,7 +144,7 @@ minetest.register_tool("lottweapons:silver_battleaxe", {
 		damage_groups = {fleshy=5.5},
 	},
 })
---]]--[[
+--]]
 minetest.register_tool("lottweapons:gold_battleaxe", {
 	description = "Gold Battleaxe",
 	inventory_image = "lottweapons_gold_battleaxe.png",
@@ -134,7 +158,7 @@ minetest.register_tool("lottweapons:gold_battleaxe", {
 		damage_groups = {fleshy=5.5},
 	},
 })
---]]
+
 --[[minetest.register_tool("lottweapons:galvorn_battleaxe", {
 	description = "Galvorn Battleaxe",
 	inventory_image = "lottweapons_galvorn_battleaxe.png",
@@ -262,7 +286,7 @@ minetest.register_tool("lottweapons:silver_warhammer", {
 		damage_groups = {fleshy=7.5},
 	},
 })
---]]--[[
+--]]
 minetest.register_tool("lottweapons:gold_warhammer", {
 	description = "Gold Warhammer",
 	inventory_image = "lottweapons_gold_warhammer.png",
@@ -275,7 +299,7 @@ minetest.register_tool("lottweapons:gold_warhammer", {
 		damage_groups = {fleshy=7.5},
 	},
 })
---]]
+
 --[[minetest.register_tool("lottweapons:galvorn_warhammer", {
 	description = "Galvorn Warhammer",
 	inventory_image = "lottweapons_galvorn_warhammer.png",
@@ -409,7 +433,7 @@ minetest.register_tool("lottweapons:silver_spear", {
 		damage_groups = {fleshy=6},
 	}
 })
---]]--[[
+--]]
 minetest.register_tool("lottweapons:gold_spear", {
 	description = "Gold Spear",
 	inventory_image = "lottweapons_gold_spear.png",
@@ -424,7 +448,7 @@ minetest.register_tool("lottweapons:gold_spear", {
 		damage_groups = {fleshy=6},
 	}
 })
---]]
+
 --[[minetest.register_tool("lottweapons:galvorn_spear", {
 	description = "Galvorn Spear",
 	inventory_image = "lottweapons_galvorn_spear.png",
@@ -554,7 +578,7 @@ minetest.register_tool("lottweapons:silver_dagger", {
 		damage_groups = {fleshy=5},
 	}
 })
---]]--[[
+--]]
 minetest.register_tool("lottweapons:gold_dagger", {
 	description = "Gold Dagger",
 	inventory_image = "lottweapons_gold_dagger.png",
@@ -568,7 +592,7 @@ minetest.register_tool("lottweapons:gold_dagger", {
 		damage_groups = {fleshy=5},
 	}
 })
---]]
+
 --[[minetest.register_tool("lottweapons:galvorn_dagger", {
 	description = "Galvorn Dagger",
 	inventory_image = "lottweapons_galvorn_dagger.png",
@@ -688,7 +712,7 @@ minetest.register_craft({
 		{'', 'group:stick', ''},
 	}
 })
---]]--[[
+--]]
 minetest.register_craft({
 	output = 'lottweapons:gold_battleaxe',
 	recipe = {
@@ -697,7 +721,7 @@ minetest.register_craft({
 		{'', 'group:stick', ''},
 	}
 })
---]]
+
 --[[minetest.register_craft({
 	output = 'lottweapons:galvorn_battleaxe',
 	recipe = {
@@ -778,7 +802,7 @@ minetest.register_craft({
 		{'', 'group:stick', ''},
 	}
 })
---]]--[[
+--]]
 minetest.register_craft({
 	output = 'lottweapons:gold_warhammer',
 	recipe = {
@@ -787,7 +811,7 @@ minetest.register_craft({
 		{'', 'group:stick', ''},
 	}
 })
---]]
+
 --[[minetest.register_craft({
 	output = 'lottweapons:galvorn_warhammer',
 	recipe = {
@@ -859,7 +883,7 @@ minetest.register_craft({
 		{'', 'group:stick', ''},
 	}
 })
---[[
+
 minetest.register_craft({
 	output = 'lottweapons:gold_spear',
 	recipe = {
@@ -867,7 +891,7 @@ minetest.register_craft({
 		{'default:gold_ingot', 'group:stick', 'default:gold_ingot'},
 		{'', 'group:stick', ''},
 	}
-})--]]
+})
 --[[
 minetest.register_craft({
 	output = 'lottweapons:silver_spear',
@@ -951,7 +975,7 @@ minetest.register_craft({
 		{'group:stick'},
 	}
 })--]]
---[[
+
 minetest.register_craft({
 	output = 'lottweapons:gold_dagger',
 	recipe = {
@@ -959,7 +983,7 @@ minetest.register_craft({
 		{'group:stick'},
 	}
 })
---]]
+
 --[[minetest.register_craft({
 	output = 'lottweapons:galvorn_dagger',
 	recipe = {
