@@ -55,6 +55,8 @@ function random_messages.read_messages()
 		"Spears have a longer range than Swords, but they are slower.",
 		"Gain more score by killing more than you die, or by capturing the flag.",
 		"You gain more score the better the opponent you defeat.",
+		"If you move while loading a crossbow, loading will cancel.",
+		"You cannot move while loading a crossbow.",
 		"To change class or resupply, rightclick (or double tap for mobile users) the flag or use /class.",
 		"Players are immune to attack for 15 seconds after they respawn.",
 		"Access the pro section of the chest by achieving a 1k+ score and killing 3 people for every 2 deaths.",
