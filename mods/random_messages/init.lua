@@ -61,7 +61,6 @@ function random_messages.read_messages()
 		"Flag carriers cannot use grapple hooks or horses, and they move slower.",
 		"To change class or resupply, rightclick (or double tap for mobile users) the flag or use /class.",
 		"Players are immune to attack for 15 seconds after they respawn.",
-		"Access the pro section of the chest by achieving a 1k+ score and killing 3 people for every 2 deaths.",
 		"Builders can use team doors (steel) to stop the enemy walking into your base.",
 		"Better armor makes you slower.",
 		"You can ignite TNT by shooting it with a torch arrow.",
