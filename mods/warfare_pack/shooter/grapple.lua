@@ -71,6 +71,7 @@ minetest.register_tool("shooter:grapple_hook", {
 	description = "Grappling Hook",
 	inventory_image = "shooter_hook.png",
 	on_use = function(itemstack, user, pointed_thing)
+		if slowed_carrier[user:get_player_name()] then return end
 		if pointed_thing.type ~= "nothing" then
 			return itemstack
 		end

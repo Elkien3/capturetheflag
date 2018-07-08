@@ -57,6 +57,8 @@ function random_messages.read_messages()
 		"You gain more score the better the opponent you defeat.",
 		"If you move while loading a crossbow, loading will cancel.",
 		"You cannot move while loading a crossbow.",
+		"Flag carriers go 80% normal speed (regardless of armor) They also cannot use horses or grapple hooks.",
+		"Flag carriers cannot use grapple hooks or horses, and they move slower.",
 		"To change class or resupply, rightclick (or double tap for mobile users) the flag or use /class.",
 		"Players are immune to attack for 15 seconds after they respawn.",
 		"Access the pro section of the chest by achieving a 1k+ score and killing 3 people for every 2 deaths.",

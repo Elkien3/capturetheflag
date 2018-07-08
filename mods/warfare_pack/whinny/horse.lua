@@ -263,6 +263,7 @@ local function register_basehorse(name, craftitem, horse)
             clicker:set_detach()
 			clicker:set_eye_offset({x=0, y=0, z=0}, {x=0, y=0, z=0})
         elseif not self.driver then
+			if slowed_carrier[clicker:get_player_name()] then return end
             self.driver = clicker
             clicker:set_attach(self.object, "", {x=0,y=18,z=0}, {x=0,y=90,z=0})
 			clicker:set_eye_offset({x=0, y=8, z=0}, {x=0, y=0, z=0})
