@@ -22,7 +22,7 @@ function ctf_team_base.place(color, pos)
 	end
 
 	-- Spawn chest
-	local chest = {name = "ctf_team_base:chest_" .. color}
+	--[[local chest = {name = "ctf_team_base:chest_" .. color}
 	local dz = 2
 	if pos.z < 0 then
 		dz = -2
@@ -41,5 +41,5 @@ function ctf_team_base.place(color, pos)
 	inv:add_item("main", ItemStack("default:wood 99"))
 	inv:add_item("main", ItemStack("default:stick 30"))
 	inv:add_item("main", ItemStack("default:glass 5"))
-	inv:add_item("main", ItemStack("default:torch 10"))
+	inv:add_item("main", ItemStack("default:torch 10"))--]]
 end
