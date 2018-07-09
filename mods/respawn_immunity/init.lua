@@ -1,6 +1,6 @@
 respawn_immunity = {}
 
-local IMMUNE_TIME = 15
+local IMMUNE_TIME = 10
 local immune_serial = 0
 local immune_players = {}
 
@@ -46,9 +46,8 @@ minetest.register_on_punchplayer(function(player, hitter,
 	if hitter and respawn_immunity.is_immune(hitter) then
 		minetest.chat_send_player(hitter:get_player_name(),
 				minetest.colorize("#FF8C00",
-				"Your immunity has ended because you attacked a player"))
-		immune_players[hitter:get_player_name()] = nil
-		respawn_immunity.update_effects(hitter)
+				"Your just respawned or joined and must wait to be able to fight."))
+		return true
 	end
 end)
 
