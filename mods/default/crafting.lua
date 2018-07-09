@@ -358,7 +358,7 @@ minetest.register_craft({
 		{'default:gold_ingot'},
 	}
 })
-
+--[[
 minetest.register_craft({
 	output = 'default:chest',
 	recipe = {
@@ -382,7 +382,7 @@ minetest.register_craft( {
 	output = "default:chest_locked",
 	recipe = {"default:chest", "default:steel_ingot"},
 })
-
+--]]
 minetest.register_craft({
 	output = 'default:furnace',
 	recipe = {
