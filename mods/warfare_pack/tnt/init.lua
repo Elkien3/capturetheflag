@@ -227,6 +227,32 @@ minetest.register_node("tnt:tnt", {
 			minetest.set_node(pos, {name="tnt:tnt_burning"})
 		end
 	end,
+	on_place = function(itemstack, placer, pointed_thing)
+		local fakestack = itemstack
+		fakestack:set_name("tnt:tnt")
+		if not pointed_thing.type == "node" then
+			fakestack = minetest.item_place(fakestack, placer, pointed_thing, wdir)
+			return fakestack
+		end
+		local pos = pointed_thing.above
+		local owner = ctf.get_territory_owner(pos)
+		local name = placer:get_player_name()
+		if not name then
+			fakestack = minetest.item_place(fakestack, placer, pointed_thing, wdir)
+			return fakestack
+		end
+		if not owner then
+			fakestack = minetest.item_place(fakestack, placer, pointed_thing, wdir)
+			return fakestack
+		end
+		if ctf.player(name).team == owner then
+			--minetest.remove_node(pos)
+			return itemstack
+		else
+			fakestack = minetest.item_place(fakestack, placer, pointed_thing, wdir)
+			return fakestack
+		end
+	end,
 	on_blast = function(pos, intensity)
 		burn(pos)
 	end,
